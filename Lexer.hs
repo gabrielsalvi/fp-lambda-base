@@ -6,13 +6,20 @@ data Expr = BTrue
           | BFalse 
           | Num Int 
           | Add Expr Expr 
-          | And Expr Expr 
+          | And Expr Expr
+          | Or Expr Expr
           | If Expr Expr Expr 
           | Var String
           | Lam String Ty Expr 
           | App Expr Expr
           | Paren Expr
-          | Let String Expr Expr 
+          | Let String Expr Expr
+          | Lt Expr Expr
+          | Le Expr Expr
+          | Gt Expr Expr
+          | Ge Expr Expr
+          | Eq Expr Expr
+          | Diff Expr Expr
           deriving Show
 
 data Ty = TBool 
@@ -24,7 +31,14 @@ data Token = TokenTrue
            | TokenFalse 
            | TokenNum Int 
            | TokenAdd
-           | TokenAnd 
+           | TokenAnd
+           | TokenOr
+           | TokenLessThan
+           | TokenLessThanOrEqualTo
+           | TokenGreaterThan
+           | TokenGreaterThanOrEqualTo
+           | TokenEqualTo
+           | TokenDiffFrom
            | TokenIf 
            | TokenThen 
            | TokenElse
@@ -42,8 +56,8 @@ data Token = TokenTrue
            deriving (Show, Eq)
 
 isSymb :: Char -> Bool 
-isSymb c = c `elem` "+&\\->()=:"
-
+isSymb c = c `elem` "+&\\->()=:<>"
+  
 lexer :: String -> [Token]
 lexer [] = [] 
 lexer ('(':cs) = TokenLParen : lexer cs
@@ -62,10 +76,13 @@ lexSymbol :: String -> [Token]
 lexSymbol cs = case span isSymb cs of 
                  ("+", rest)  -> TokenAdd : lexer rest 
                  ("&&", rest) -> TokenAnd : lexer rest 
-                 ("\\", rest) -> TokenLam : lexer rest 
-                 ("->", rest) -> TokenArrow : lexer rest 
-                 ("=", rest)  -> TokenEq : lexer rest 
-                 (":", rest)  -> TokenColon : lexer rest 
+                 ("||", rest) -> TokenOr : lexer rest 
+                 ("<", rest)  -> TokenLessThan : lexer rest
+                 ("<=", rest) -> TokenLessThanOrEqualTo : lexer rest
+                 (">", rest)  -> TokenGreaterThan : lexer rest
+                 (">=", rest) -> TokenGreaterThanOrEqualTo : lexer rest
+                 ("==", rest) -> TokenEqualTo : lexer rest
+                 ("!=", rest) -> TokenDiffFrom : lexer rest
                  _ -> error "Lexical error: invalid symbol!"
 
 lexKW :: String -> [Token]
@@ -80,5 +97,3 @@ lexKW cs = case span isAlpha cs of
              ("Num", rest) -> TokenNumber : lexer rest 
              ("Bool", rest) -> TokenBoolean : lexer rest 
              (var, rest) -> TokenVar var : lexer rest 
-
-
