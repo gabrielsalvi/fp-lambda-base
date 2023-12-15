@@ -42,25 +42,25 @@ typeof ctx (App e1 e2) = case (typeof ctx e1, typeof ctx e2) of
 typeof ctx (Let v e1 e2) = case typeof ctx e1 of 
                              Just t1 -> typeof ((v, t1):ctx) e2 
                              _       -> Nothing 
-typeof ctx (LessThan e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Lt e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                              (Just TNum, Just TNum) -> Just TBool
                              _                      -> Nothing
-typeof ctx (LessThanOrEqualTo e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Le e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                                       (Just TNum, Just TNum) -> Just TBool
                                       _                      -> Nothing
-typeof ctx (GreaterThan e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Gt e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                                 (Just TNum, Just TNum) -> Just TBool
                                 _                      -> Nothing
-typeof ctx (GreaterThanOrEqualTo e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Ge e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                                          (Just TNum, Just TNum) -> Just TBool
                                          _                      -> Nothing
-typeof ctx (EqualTo e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Eq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                            (Just t1, Just t2) -> if t1 == t2 then
                                                  Just TBool
                                                else
                                                  Nothing
                            _                  -> Nothing
-typeof ctx (DiffFrom e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Diff e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                             (Just t1, Just t2) -> if t1 == t2 then
                                                   Just TBool
                                                 else
