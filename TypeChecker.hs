@@ -54,7 +54,7 @@ typeof ctx (Gt e1 e2) = case (typeof ctx e1, typeof ctx e2) of
 typeof ctx (Ge e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                                          (Just TNum, Just TNum) -> Just TBool
                                          _                      -> Nothing
-typeof ctx (Eq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+typeof ctx (Eqt e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                            (Just t1, Just t2) -> if t1 == t2 then
                                                  Just TBool
                                                else

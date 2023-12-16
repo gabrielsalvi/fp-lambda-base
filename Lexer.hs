@@ -18,7 +18,7 @@ data Expr = BTrue
           | Le Expr Expr
           | Gt Expr Expr
           | Ge Expr Expr
-          | Eq Expr Expr
+          | Eqt Expr Expr
           | Diff Expr Expr
           deriving Show
 

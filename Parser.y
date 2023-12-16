@@ -56,7 +56,7 @@ Exp         : num                           { Num $1 }
             | Exp "<=" Exp                  { Le $1 $3 }
             | Exp '>' Exp                   { Gt $1 $3 }
             | Exp ">=" Exp                  { Ge $1 $3 }
-            | Exp "==" Exp                  { Eq $1 $3 }
+            | Exp "==" Exp                  { Eqt $1 $3 }
             | Exp "!=" Exp                  { Diff $1 $3 }
 
 Type    : Bool                              { TBool }
